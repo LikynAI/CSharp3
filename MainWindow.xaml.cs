@@ -15,25 +15,59 @@ using System.Windows.Shapes;
 
 namespace MailSender
 {
-	/// <summary>
-	/// Логика взаимодействия для MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window
 	{
-		EmailSendServiceClass Sender;
+		private EmailSendServiceClass _emailSender;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 		}
 
-		private void SendBtn_Click(object sender, RoutedEventArgs e)
+		private void TabSwitcherControl_OnBack(object sender, RoutedEventArgs e)
 		{
-			if (Sender == null)
+			if (MainTabControl.SelectedIndex > 0)
 			{
-				Sender = new EmailSendServiceClass(UserTextBox.Text, PasswordTextBox.Text, SenderTextBox.Text);
+				MainTabControl.SelectedIndex--;
 			}
-			Sender.Send(ReciverTextBox.Text, MailSubjectTextBox.Text, MailBodyTextBox.Text);
+		}
+
+		private void TabSwitcherControl_OnForward(object sender, RoutedEventArgs e)
+		{
+			if (MainTabControl.SelectedIndex < MainTabControl.Items.Count)
+			{
+				MainTabControl.SelectedIndex++;
+			}
+		}
+
+		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			KeyValuePair<string, string> item = (KeyValuePair<string, string>) cbSenderSelect.SelectionBoxItem;
+			string strLogin = cbSenderSelect.Text;
+			string strPassword = cbSenderSelect.SelectedValue.ToString();
+			KeyValuePair<string, string> server = server = (KeyValuePair<string, string>)cbServerSelect.SelectionBoxItem;
+			string strServer = cbServerSelect.Text;
+			int iPort = Convert.ToInt16(cbServerSelect.SelectedValue);
+			rtxMailBody.SelectAll();
+			string mailbody = rtxMailBody.Selection.Text;
+			if (string.IsNullOrEmpty(strLogin))
+			{
+				MessageBox.Show("Выберите отправителя");
+				return;
+			}
+			if (string.IsNullOrEmpty(strPassword))
+			{
+				MessageBox.Show("Укажите пароль отправителя");
+				return;
+			}
+			if (string.IsNullOrEmpty(mailbody))
+			{
+				MessageBox.Show("Письмо не содержит текста");
+				MainTabControl.SelectedIndex = 2;
+				return;
+			}
+			_emailSender = new EmailSendServiceClass(strLogin, strPassword, strServer, iPort, mailbody);
+			_emailSender.SendMail("");
 		}
 	}
 }

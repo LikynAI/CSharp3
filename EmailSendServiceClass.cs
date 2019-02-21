@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Windows;
@@ -7,51 +9,46 @@ namespace MailSender
 {
 	public class EmailSendServiceClass
 	{
-		private static string _priStrSender;
-		private string _priStrServer;
-		private string _priStrUser;
-		private string _priStrPassword;
+		private readonly string _strLogin;
+		private readonly string _strPassword;
+		private readonly string _strSmtp; 
+		private readonly int _iSmtpPort;
+		private string _strBody; 
+		private string _strSubject; 
 
-		public EmailSendServiceClass(string user, string password, string sender)
+		public EmailSendServiceClass(string sLogin, string sPassword, string strServer, int iPort, string sBody)
 		{
-			_priStrUser = user;
-			_priStrPassword = password;
-			_priStrSender = sender;
-			_priStrServer = ChoseServer(_priStrSender);
+			_strLogin = sLogin;
+			_strPassword = sPassword;
+			_strSmtp = strServer;
+			_iSmtpPort = iPort;
+			_strBody = sBody;
 		}
 
-		private string ChoseServer(string priStrsender)
+		public void SendMail(string mail)
 		{
-			bool flag = false;
-			string strServer = string.Empty;
-			for (int i = 0; i < _priStrSender.Length; i++)
+			using (MailMessage mm = new MailMessage(_strLogin, mail))
 			{
-				if (_priStrSender[i] == '@') { flag = true; i++; }
-				if (flag == true) { strServer += _priStrSender[i]; }
-			}
-			return "smtp." + strServer;
-		}
-
-		public void Send(string strReceiver, string strEmailSubject, string strEmailBody)
-		{
-			try
-			{
-				using (var Message = new MailMessage(_priStrSender, strReceiver, strEmailSubject, strEmailBody))
-				using (var client = new SmtpClient(_priStrServer) { EnableSsl = true, Credentials = new NetworkCredential(_priStrUser, _priStrPassword) })
+				mm.Subject = _strSubject;
+				mm.Body = "Hello world!";
+				mm.IsBodyHtml = false;
+				SmtpClient sc = new SmtpClient(_strSmtp, _iSmtpPort)
 				{
-					client.Send(Message);
+					EnableSsl = true,
+					DeliveryMethod = SmtpDeliveryMethod.Network,
+					UseDefaultCredentials = false,
+					Credentials = new NetworkCredential(_strLogin, _strPassword)
+				};
+				try
+				{
+					sc.Send(mm);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Невозможно отправить письмо " + ex.ToString());
 				}
 			}
-			catch
-			{
-				MessageBox.Show("Возникла ошибка при отправке сообщения");
-				throw new Exception("Возникла ошибка при отправке сообщения");
-			}
-			finally
-			{
-				MessageBox.Show("Сообщение отправлено");
-			}
 		}
-	}
-}
+	} 
 
+}
