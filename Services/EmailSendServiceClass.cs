@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Windows;
@@ -11,10 +9,10 @@ namespace MailSender
 	{
 		private readonly string _strLogin;
 		private readonly string _strPassword;
-		private readonly string _strSmtp; 
+		private readonly string _strSmtp;
 		private readonly int _iSmtpPort;
-		private string _strBody; 
-		private string _strSubject; 
+		private string _strBody;
+		private string _strSubject;
 
 		public EmailSendServiceClass(string sLogin, string sPassword, string strServer, int iPort, string sBody)
 		{
@@ -49,6 +47,6 @@ namespace MailSender
 				}
 			}
 		}
-	} 
-
+	}
+ 
 }

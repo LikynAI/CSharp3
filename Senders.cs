@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodePasswordDLL;
 
 namespace MailSender
 {
@@ -6,8 +7,8 @@ namespace MailSender
 	{
 		public static Dictionary<string, string> SendersDictionary { get; } = new Dictionary<string, string>
 		{
-			{"qwertyqq@gmail.com", "Password"},
-			{"wasd@mail.ru", "Password2"}
+			{"qwertyqq@gmail.com", Class1.Code("Password")},
+			{"wasd@mail.ru", Class1.Code("Password2")}
 		};
 	}
 }
