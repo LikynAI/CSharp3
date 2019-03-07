@@ -10,12 +10,12 @@
 		mc:Ignorable="d"
  Height="450" Width="800">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Exit"/>
-            </MenuItem>
-        </Menu>
-        <TabSwitcher:TabSwitcherControl Back="TabSwitcherControl_OnBack" Forward="TabSwitcherControl_OnForward" DockPanel.Dock="Bottom"/>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="File">
+				<MenuItem Header="Exit"/>
+			</MenuItem>
+		</Menu>
+		<TabSwitcher:TabSwitcherControl Back="TabSwitcherControl_OnBack" Forward="TabSwitcherControl_OnForward" DockPanel.Dock="Bottom"/>
         <TabControl Name="MainTabControl">
             <TabItem Header="Рассылка">
 				<DockPanel>

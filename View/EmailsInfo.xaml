@@ -25,17 +25,13 @@
 		<DockPanel Grid.Row="1" Margin="5">
 			<WrapPanel>
 				<TextBlock Text="Поиск по имени:"/>
-				<TextBox x:Name="SearchTextBox" Margin="15,0,0,0" MinWidth="100">
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="TextChanged">
-							<i:InvokeCommandAction Command="{Binding EmailsSortCommand}" CommandParameter="{Binding ElementName=SearchTextBox, Path=Text}"/>
-						</i:EventTrigger>
-					</i:Interaction.Triggers>
+				<TextBox x:Name="SearchTextBox" Margin="15,0,0,0" MinWidth="100" Text="{Binding FilterWord, UpdateSourceTrigger=PropertyChanged, Delay=100}">
+
 				</TextBox>
 			</WrapPanel>
 		</DockPanel>
 		<DataGrid Grid.Row="2" SelectedItem="{Binding CurrentEmail}"
-                  ItemsSource="{Binding Emails}"
+                  ItemsSource="{Binding EmailsView}"
                   AutoGenerateColumns="False" IsReadOnly="True">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="#" Binding="{Binding Id}"

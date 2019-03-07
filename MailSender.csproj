@@ -92,7 +92,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Email.cs" />
-    <Compile Include="EmailsInfo.xaml.cs">
+    <Compile Include="ValidationRules\DatabaseID.cs" />
+    <Compile Include="ValidationRules\EmailAddress.cs" />
+    <Compile Include="ValidationRules\Name.cs" />
+    <Compile Include="View\EmailsInfo.xaml.cs">
       <DependentUpon>EmailsInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ports.cs" />
@@ -102,7 +105,10 @@
     <Compile Include="Services\EmailSendServiceClass.cs" />
     <Compile Include="Services\IDataAccessService.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Page Include="EmailsInfo.xaml">
+    <Compile Include="View\SaveEmailView.xaml.cs">
+      <DependentUpon>SaveEmailView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\EmailsInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -118,9 +124,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SaveEmailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\SaveEmailView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -177,8 +183,6 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

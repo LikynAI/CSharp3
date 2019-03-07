@@ -1,4 +1,7 @@
+using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MailSender.Services;
@@ -15,20 +18,53 @@ namespace MailSender.ViewModel
 			get => _emails;
 			set
 			{
-				Set(ref _emails, value);
+				if (!Set(ref _emails, value)) return;
+				_emailsView = new CollectionViewSource { Source = value };
+				_emailsView.Filter += OnEmailsCollectionViewSourceFilter;
+				RaisePropertyChanged(nameof(EmailsView));
 			}
 		}
 
+		private void OnEmailsCollectionViewSourceFilter(object sender, FilterEventArgs e)
+		{
+			if (!(e.Item is Email email) || string.IsNullOrWhiteSpace(_filterWord)) return;
+			if (email.Name.Contains(_filterWord))
+			{
+				e.Accepted = true;
+			}
+			else if (email.Adress.Contains(_filterWord))
+			{
+				e.Accepted = true;
+			}
+			else if (email.Id.ToString().Contains(_filterWord))
+			{
+				e.Accepted = true;
+			}
+			else e.Accepted = false;
+		}
+
+		private string _filterWord;
+		public string FilterWord
+		{
+			get => _filterWord;
+			set
+			{
+				if (!Set(ref _filterWord, value)) return;
+				EmailsView.Refresh();
+			}
+		}
+
+		private CollectionViewSource _emailsView;
+		public ICollectionView EmailsView => _emailsView?.View;
+
 		public RelayCommand<Email> SaveEmailCommand { get; }
 		public RelayCommand ReadAllMailsCommand { get; }
-		public RelayCommand<string> EmailsSortCommand { get; }
 
 		public MainViewModel(IDataAccessService dataService)
 		{
 			_dataService = dataService;
 			ReadAllMailsCommand = new RelayCommand(GetEmails);
 			SaveEmailCommand = new RelayCommand<Email>(SaveEmail);
-			EmailsSortCommand = new RelayCommand<string>(EmailsSort);
 		}
 
 		private Email _currentEmail = new Email();
@@ -37,41 +73,6 @@ namespace MailSender.ViewModel
 			get => _currentEmail;
 			set => Set(ref _currentEmail, value);
 		}
-
-		private void EmailsSort(string word)
-		{
-			GetEmails();
-			int changes = 0;
-			for (int i = 0; i < Emails.Count; i++)
-			{	
-				bool change = false;
-				for (int k = 0; k+word.Length < Emails[i].Name.Length; k++)
-				{
-					for (int j = 0; j < word.Length; j++)
-					{
-						if (Emails[i].Name[k] == word[j])
-						{
-							change = true;
-						}
-						else
-						{
-							change = false;
-							break;
-						}
-						if (change)
-						{
-							Email tempo = Emails[i];
-							for (int h = changes; h < i; h++)
-							{
-								Emails[i - h + changes] = Emails[i-h-1 + changes];
-							}
-							Emails[changes] = tempo;
-							changes++;
-						}
-					}
-				}
-			}
-		} 
 
 		private void SaveEmail(Email email)
 		{
