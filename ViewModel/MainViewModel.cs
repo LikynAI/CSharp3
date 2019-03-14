@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Controls;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -59,12 +60,15 @@ namespace MailSender.ViewModel
 
 		public RelayCommand<Email> SaveEmailCommand { get; }
 		public RelayCommand ReadAllMailsCommand { get; }
+		public RelayCommand<SelectedDatesCollection> SelectedDatesCommand { get; }
+
 
 		public MainViewModel(IDataAccessService dataService)
 		{
 			_dataService = dataService;
 			ReadAllMailsCommand = new RelayCommand(GetEmails);
 			SaveEmailCommand = new RelayCommand<Email>(SaveEmail);
+			SelectedDatesCommand = new RelayCommand<SelectedDatesCollection>(SelectedDates);
 		}
 
 		private Email _currentEmail = new Email();
@@ -79,6 +83,14 @@ namespace MailSender.ViewModel
 			email.Id = _dataService.CreateEmail(email);
 			if (email.Id == 0) return;
 			Emails.Add(email);
+		}
+
+		private void SelectedDates(SelectedDatesCollection dates)
+		{
+			if (dates.Count > 0)
+			{
+
+			}
 		}
 
 		private void GetEmails()
