@@ -22,13 +22,17 @@ namespace thread3
 			MartixB = new int[100, 100];
 
 			MartixMultiplied = new int[MartixA.GetLength(0), MartixA.GetLength(1)];
+			Task FillMatrixA = new Task(() => FillMatrix(ref MartixA));
+			FillMatrixA.Start();
+			Task FillMatrixB = new Task(() => FillMatrix(ref MartixB));
+			FillMatrixB.Start();
 
-			var ThreadA = new Thread(() => FillMatrix(ref MartixA));
-			ThreadA.Start();
-			var ThreadB = new Thread(() => FillMatrix(ref MartixB));
-			ThreadB.Start();
+			while (!FillMatrixA.IsCompleted || !FillMatrixB.IsCompleted)
+			{
+				Console.WriteLine("Ожидание");
+				Thread.Sleep(10);
+			}
 
-			while (ThreadA.IsAlive || ThreadB.IsAlive) { Thread.Sleep(10); Console.WriteLine("Waiting..."); }
 			Console.WriteLine("Матрицы заполнены");
 
 			Parallel.For(0, MartixA.GetLength(0), Multiply);
@@ -77,6 +81,7 @@ namespace thread3
 					Martix[i,j] = r.Next(10);
 				}
 			}
+			Console.WriteLine("Матрица создана");
 		}
 	}
 }
