@@ -1,16 +1,18 @@
 ﻿using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("thread3")]
+[assembly: AssemblyTitle("MailSender")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("thread3")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyProduct("MailSender")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,8 +21,25 @@ using System.Runtime.InteropServices;
 // COM, задайте атрибуту ComVisible значение TRUE для этого типа.
 [assembly: ComVisible(false)]
 
-// Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("cdbf1f24-8943-4e24-b261-1bfb27d96b99")]
+//Чтобы начать создание локализуемых приложений, задайте
+//<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj
+//внутри <PropertyGroup>.  Например, если используется английский США
+//в своих исходных файлах установите <UICulture> в en-US.  Затем отмените преобразование в комментарий
+//атрибута NeutralResourceLanguage ниже.  Обновите "en-US" в
+//строка внизу для обеспечения соответствия настройки UICulture в файле проекта.
+
+//[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
+
+
+[assembly: ThemeInfo(
+	ResourceDictionaryLocation.None, //где расположены словари ресурсов по конкретным тематикам
+									 //(используется, если ресурс не найден на странице,
+									 // или в словарях ресурсов приложения)
+	ResourceDictionaryLocation.SourceAssembly //где расположен словарь универсальных ресурсов
+											  //(используется, если ресурс не найден на странице,
+											  // в приложении или в каких-либо словарях ресурсов для конкретной темы)
+)]
+
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
