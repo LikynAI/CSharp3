@@ -11,12 +11,11 @@ namespace MailSender.Services
 	public class DataBaseAccessservice : IDataAccessService
 	{
 		private readonly EmailDBContainer emailDBContainer = new EmailDBContainer();
-		public ObservableCollection<Email> Emails
+		public List<Email> emailDBContainerCollection
 		{
 			get
 			{
-				ObservableCollection<Email> Emails = emailDBContainer.Emails.Local;
-				return Emails;
+				return emailDBContainer.Emails.ToList<Email>();
 			}
 		}
 
@@ -32,6 +31,7 @@ namespace MailSender.Services
 			{
 				return 0;
 			}
+
 		}
 	}
 }

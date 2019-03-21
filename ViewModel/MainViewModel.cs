@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -12,9 +13,9 @@ namespace MailSender.ViewModel
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly IDataAccessService _dataService;
-		private ObservableCollection<Email> _emails = new ObservableCollection<Email>();
+		private List<Email> _emails = new List<Email>();
 
-		public ObservableCollection<Email> Emails
+		public List<Email> Emails
 		{
 			get => _emails;
 			set
@@ -82,7 +83,7 @@ namespace MailSender.ViewModel
 		{
 			email.Id = _dataService.CreateEmail(email);
 			if (email.Id == 0) return;
-			Emails.Add(email);
+			else Emails.Add(email);
 		}
 
 		private void SelectedDates(SelectedDatesCollection dates)
@@ -95,7 +96,7 @@ namespace MailSender.ViewModel
 
 		private void GetEmails()
 		{
-			Emails = _dataService.Emails;
+			Emails = _dataService.emailDBContainerCollection;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace MailSender.Services
 {
 	public interface IDataAccessService
 	{
-		ObservableCollection<Email> Emails { get; }
+		List<Email> emailDBContainerCollection { get; }
 
 		int CreateEmail(Email email);
 	}
