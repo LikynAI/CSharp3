@@ -6,7 +6,7 @@
 			 xmlns:rules="clr-namespace:MailSender.ValidationRules"
              mc:Ignorable="d"
              DataContext="{Binding Main, Source={StaticResource Locator}}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="200">
 	<Grid DataContext="{Binding CurrentEmail}">
 		<Grid.Resources>
 			<Style TargetType="TextBox">
@@ -42,27 +42,13 @@
 			<ColumnDefinition Width="Auto"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
-		<TextBlock Grid.Column="0" Grid.Row="0" Text="id:"
-                   HorizontalAlignment="Right" />
 		<TextBlock Grid.Column="0" Grid.Row="1" Text="Address:"
                    HorizontalAlignment="Right"/>
 		<TextBlock Grid.Column="0" Grid.Row="2" Text="Name:"
                    HorizontalAlignment="Right"/>
-		<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id, NotifyOnValidationError=True, 
-			ValidatesOnDataErrors=True}" Validation.Error="Validation_OnError"/>
-		<TextBox Grid.Column="1" Grid.Row="0" Validation.Error="Validation_OnError">
-			<TextBox.Text>
-				<Binding Path="Id" NotifyOnValidationError="True" >
-					<Binding.ValidationRules>
-						<rules:DatabaseID/>
-						<ExceptionValidationRule/>
-					</Binding.ValidationRules>
-				</Binding>
-			</TextBox.Text>
-		</TextBox>
 		<TextBox Grid.Column="1" Grid.Row="1">
 			<TextBox.Text>
-				<Binding Path="Adress" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged"
+				<Binding Path="Adress" NotifyOnValidationError="True" UpdateSourceTrigger="Explicit"
                          ValidatesOnDataErrors="True" >
 					<Binding.ValidationRules>
 						<rules:EmailAddress/>
@@ -73,7 +59,7 @@
 		</TextBox>
 		<TextBox Grid.Column="1" Grid.Row="2">
 			<TextBox.Text>
-				<Binding Path="Name" NotifyOnValidationError="True" >
+				<Binding Path="Name" NotifyOnValidationError="True" UpdateSourceTrigger="Explicit">
 					<Binding.ValidationRules>
 						<rules:Name/>
 						<ExceptionValidationRule/>
@@ -81,12 +67,21 @@
 				</Binding>
 			</TextBox.Text>
 		</TextBox>
-		<Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
-                Content="Сохранить"
-                Command="{Binding DataContext.SaveEmailCommand,
-RelativeSource={RelativeSource AncestorType=UserControl}}"
-                CommandParameter="{Binding}"
-                HorizontalAlignment="Center" Padding="30,0"/>
+		<Button Grid.Row="4" Grid.Column="1"
+	  Content="Сохранить"
+	  Command="{Binding DataContext.SaveEmailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+	  CommandParameter="{Binding}"
+	  HorizontalAlignment="Center" Padding="30,0" Margin="10,9,23,-9"/>
+		<Button Grid.Row="4" Grid.Column="1"
+	  Content="Обновить"
+	  Command="{Binding DataContext.RefreshEmailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+	  CommandParameter="{Binding}"
+	  HorizontalAlignment="Center" Padding="30,0" Margin="10,35,23,-35"/>
+		<Button Grid.Row="4" Grid.Column="1"
+	  Content="Удалить"
+	  Command="{Binding DataContext.DeleteEmailCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+	  CommandParameter="{Binding}"
+	  HorizontalAlignment="Center" Padding="30,0" Margin="10,61,23,-61"/>
 	</Grid>
 </UserControl>
 

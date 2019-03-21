@@ -12,5 +12,9 @@ namespace MailSender.Services
 		List<Email> emailDBContainerCollection { get; }
 
 		int CreateEmail(Email email);
+
+		int RefreshEmail(Email email);
+
+		int DeleteEmail(Email email); 
 	}
 }

@@ -60,6 +60,8 @@ namespace MailSender.ViewModel
 		public ICollectionView EmailsView => _emailsView?.View;
 
 		public RelayCommand<Email> SaveEmailCommand { get; }
+		public RelayCommand<Email> RefreshEmailCommand { get; }
+		public RelayCommand<Email> DeleteEmailCommand { get; }
 		public RelayCommand ReadAllMailsCommand { get; }
 		public RelayCommand<SelectedDatesCollection> SelectedDatesCommand { get; }
 
@@ -69,7 +71,22 @@ namespace MailSender.ViewModel
 			_dataService = dataService;
 			ReadAllMailsCommand = new RelayCommand(GetEmails);
 			SaveEmailCommand = new RelayCommand<Email>(SaveEmail);
+			RefreshEmailCommand = new RelayCommand<Email>(RefreshEmail);
+			DeleteEmailCommand = new RelayCommand<Email>(DeleteEmail);
 			SelectedDatesCommand = new RelayCommand<SelectedDatesCollection>(SelectedDates);
+		}
+
+		private void RefreshEmail(Email obj)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void DeleteEmail(Email email)
+		{
+			_dataService.DeleteEmail(email);
+
+			Emails.Remove(email);
+			GetEmails();
 		}
 
 		private Email _currentEmail = new Email();
@@ -82,8 +99,7 @@ namespace MailSender.ViewModel
 		private void SaveEmail(Email email)
 		{
 			email.Id = _dataService.CreateEmail(email);
-			if (email.Id == 0) return;
-			else Emails.Add(email);
+			GetEmails();
 		}
 
 		private void SelectedDates(SelectedDatesCollection dates)

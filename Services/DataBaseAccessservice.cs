@@ -19,6 +19,8 @@ namespace MailSender.Services
 			}
 		}
 
+		
+
 		int IDataAccessService.CreateEmail(Email email)
 		{
 			try
@@ -31,7 +33,26 @@ namespace MailSender.Services
 			{
 				return 0;
 			}
+		}
 
+		int IDataAccessService.RefreshEmail(Email email)
+		{
+			throw new NotImplementedException();
+		}
+
+		int IDataAccessService.DeleteEmail(Email email)
+		{
+			try
+			{
+
+				emailDBContainer.Emails.Remove(email);
+				emailDBContainer.SaveChanges();
+				return 1;
+			}
+			catch
+			{
+				return 0;
+			}
 		}
 	}
 }
